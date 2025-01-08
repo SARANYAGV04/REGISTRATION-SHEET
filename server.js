@@ -8,13 +8,12 @@ const path = require('path'); // Use `require` for consistency
 // Load environment variables
 dotenv.config();
 
-app.use(cors()); 
 // Initialize Express app
 const app = express();
 
 // Middleware
 app.use(cors({
-  origin: 'http://localhost:5173', // Vite dev server URL, adjust if needed
+  origin: ['http://localhost:5173', 'https://registration-sheet.onrender.com'], // Allow both local and deployed frontends
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
