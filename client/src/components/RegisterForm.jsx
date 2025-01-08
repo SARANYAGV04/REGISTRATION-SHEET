@@ -16,18 +16,23 @@ const RegisterForm = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:8000/api/register', formData);
-      console.log('User registered successfully:', response.data);
-      navigate('/signin');
-    } catch (error) {
-      console.error('Error registering user:', error.response?.data?.message || error.message);
-      alert('Error registering user. Please try again.');
-    }
-  };
+  // Determine the correct base URL for the API (Local or Deployed)
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';  // Local fallback
+
+  try {
+    // Send POST request to the correct API URL
+    const response = await axios.post(`${apiUrl}/api/register`, formData);
+    console.log('User registered successfully:', response.data);
+    navigate('/signin');
+  } catch (error) {
+    console.error('Error registering user:', error.response?.data?.message || error.message);
+    alert('Error registering user. Please try again.');
+  }
+};
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
