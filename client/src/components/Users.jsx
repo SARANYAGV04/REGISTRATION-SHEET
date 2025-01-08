@@ -5,15 +5,22 @@ import { FaTrash } from 'react-icons/fa'; // Import trash icon
 const Users = () => {
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/users'); // Adjust to your backend URL
-        setUsers(response.data);
-      } catch (error) {
-        console.error('Error fetching users:', error.response?.data?.message || error.message);
-      }
-    };
+useEffect(() => {
+  const fetchUsers = async () => {
+    // Dynamically set the backend API URL based on the environment
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';  // Default to localhost for development
+
+    try {
+      const response = await axios.get(`${apiUrl}/api/users`);  // Make request to the dynamic URL
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Error fetching users:', error.response?.data?.message || error.message);
+    }
+  };
+
+  fetchUsers();
+}, []);
+
 
     fetchUsers();
   }, []);
