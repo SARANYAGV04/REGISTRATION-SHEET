@@ -10,17 +10,23 @@ const SignInForm = () => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-  const handleSignIn = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('http://localhost:8000/api/login', credentials);
-      console.log('Login successful:', response.data);
-      navigate('/users'); // Redirect to Users page
-    } catch (error) {
-      console.error('Error signing in:', error.message);
-      alert('Error signing in: ' + (error.response?.data?.message || 'Server error'));
-    }
-  };
+ const handleSignIn = async (e) => {
+  e.preventDefault();
+
+  // Determine the correct base URL for the API (Local or Deployed)
+  const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8000';  // Local fallback
+
+  try {
+    // Send POST request to the correct API URL for login
+    const response = await axios.post(`${apiUrl}/api/login`, credentials);
+    console.log('Login successful:', response.data);
+    navigate('/users'); // Redirect to Users page after successful login
+  } catch (error) {
+    console.error('Error signing in:', error.message);
+    alert('Error signing in: ' + (error.response?.data?.message || 'Server error'));
+  }
+};
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
