@@ -8,6 +8,7 @@ const path = require('path'); // Use `require` for consistency
 // Load environment variables
 dotenv.config();
 
+app.use(cors()); 
 // Initialize Express app
 const app = express();
 
